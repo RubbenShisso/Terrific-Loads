@@ -1,0 +1,4 @@
+client-assets/
+.env
+.env.local
+qa-screenshots/

@@ -1,0 +1,156 @@
+@import 'tailwindcss';
+
+/*
+ * Metric-matched fallback for Inter: while the web font loads, Arial is scaled
+ * to Inter's size, so text wraps the same way and nothing jumps when Inter arrives.
+ */
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial'), local('ArialMT'), local('Helvetica');
+  size-adjust: 107.12%;
+  ascent-override: 90.44%;
+  descent-override: 22.52%;
+  line-gap-override: 0%;
+}
+
+/*
+ * Terrific Loads brand tokens: the only place colours are defined.
+ * Black, yellow and white from the logo. The site stays predominantly white;
+ * black and yellow are accents. Never put yellow text on a light background.
+ */
+@theme {
+  --font-sans: 'Inter', 'Inter Fallback', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --color-brand-black: #0a0a0a; /* headings, header logo block, footer, CTA band, dark buttons */
+  --color-brand-yellow: #fcc000; /* sampled from the client logo file; backgrounds, borders, underlines, icon badges */
+  --color-surface: #f5f5f2; /* alternate section background */
+  --color-ink: #111111; /* body text */
+  --color-muted: #5f6368; /* secondary text */
+  --color-line: #e5e5e0; /* borders */
+  --color-whatsapp: #25d366; /* WhatsApp buttons only, always with black text */
+  --color-danger: #c62828; /* form errors */
+  --color-success: #2e7d32; /* form success */
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-white font-sans text-ink antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+  h1, h2, h3 {
+    @apply tracking-tight text-brand-black;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    @apply bg-brand-yellow text-brand-black;
+  }
+}
+
+@layer components {
+  /* Small black-on-yellow label above section headings. */
+  .eyebrow {
+    @apply inline-block rounded-md bg-brand-yellow px-2 py-0.5 text-xs font-bold tracking-wider text-brand-black uppercase;
+  }
+  /* Yellow highlighter bar behind a key phrase; the text itself stays black. */
+  .highlight {
+    @apply box-decoration-clone px-1;
+    background-image: linear-gradient(transparent 55%, var(--color-brand-yellow) 55%);
+  }
+  /*
+   * Selectable chip. Works on a <button aria-pressed> or on a <label> wrapping a
+   * visually hidden checkbox/radio. Selected = yellow fill, black border and text.
+   */
+  .chip {
+    @apply inline-flex min-h-11 cursor-pointer items-center justify-center gap-1.5 rounded-full border border-line bg-white px-4 text-sm font-semibold text-brand-black transition-colors select-none hover:border-brand-black;
+  }
+  .chip[aria-pressed='true'],
+  .chip:has(input:checked) {
+    @apply border-brand-black bg-brand-yellow;
+  }
+  /* Inline text link: black text, yellow underline, yellow fill on hover. */
+  .text-link {
+    @apply font-semibold text-brand-black underline decoration-brand-yellow decoration-[3px] underline-offset-4 transition-colors hover:bg-brand-yellow;
+  }
+}
+
+/*
+ * Focus ring: 3px yellow with a black outer edge, visible on white and on black.
+ * Deliberately outside @layer so no utility (shadows, ring, outline-none) can hide it.
+ */
+:focus-visible,
+.chip:has(input:focus-visible) {
+  outline: 3px solid var(--color-brand-yellow);
+  outline-offset: 0;
+  box-shadow: 0 0 0 6px var(--color-brand-black);
+}
+
+
+/*
+ * Interactive backdrop (see InteractiveBackdrop.jsx). Colours come from the
+ * brand tokens. --spot-x/--spot-y follow the mouse on desktop; otherwise the
+ * glow rests at --rest-x/--rest-y.
+ */
+@property --spot-x {
+  syntax: '<length-percentage>';
+  inherits: true;
+  initial-value: 85%;
+}
+@property --spot-y {
+  syntax: '<length-percentage>';
+  inherits: true;
+  initial-value: 15%;
+}
+.backdrop {
+  transition: --spot-x 0.35s ease-out, --spot-y 0.35s ease-out;
+  --spot-x: var(--rest-x);
+  --spot-y: var(--rest-y);
+  --dot: color-mix(in oklab, var(--color-brand-black) 9%, transparent);
+  --dot-lit: color-mix(in oklab, var(--color-brand-black) 35%, transparent);
+  --glow: color-mix(in oklab, var(--color-brand-yellow) 30%, transparent);
+}
+.backdrop[data-tone='dark'] {
+  --dot: color-mix(in oklab, white 9%, transparent);
+  --dot-lit: color-mix(in oklab, var(--color-brand-yellow) 55%, transparent);
+  --glow: color-mix(in oklab, var(--color-brand-yellow) 16%, transparent);
+}
+.backdrop-dots,
+.backdrop-dots-lit {
+  background-size: 22px 22px;
+  background-position: center;
+}
+.backdrop-dots {
+  background-image: radial-gradient(var(--dot) 1.2px, transparent 1.6px);
+  /* Fade the grid out toward the bottom so it never competes with content. */
+  mask-image: linear-gradient(to bottom, black 30%, transparent);
+}
+.backdrop-dots-lit {
+  background-image: radial-gradient(var(--dot-lit) 1.4px, transparent 1.8px);
+  mask-image: radial-gradient(170px circle at var(--spot-x) var(--spot-y), black, transparent 75%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.backdrop[data-active='true'] .backdrop-dots-lit {
+  opacity: 1;
+}
+.backdrop-glow {
+  background: radial-gradient(520px circle at var(--spot-x) var(--spot-y), var(--glow), transparent 65%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .backdrop-dots-lit {
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

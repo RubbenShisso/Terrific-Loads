@@ -1,0 +1,16 @@
+node_modules
+dist
+.env
+.env.local
+.env.*.local
+
+# Client source material: banking details, raw chat, unprocessed photos.
+# Never commit or deploy this folder.
+client-assets/
+
+# Local QA output
+qa-screenshots/
+
+# WhatsApp voice notes are private client communication. Never commit or deploy them.
+WhatsApp Ptt *
+*.opus

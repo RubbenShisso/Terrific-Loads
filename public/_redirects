@@ -1,0 +1,3 @@
+# Prerendered pages are served as /about -> about.html (pretty URLs).
+# Anything else gets the prerendered 404 page.
+/*    /404.html   404
