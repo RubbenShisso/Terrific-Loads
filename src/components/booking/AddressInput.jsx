@@ -1,19 +1,30 @@
 import { useEffect, useRef } from 'react'
 import Field from '../forms/Field.jsx'
 import { loadPlaces, mapsEnabled } from '../../lib/calculateDistance.js'
+import useLocationAutocomplete from '../../hooks/useLocationAutocomplete.jsx'
 
 /**
- * Address field. With VITE_GOOGLE_MAPS_API_KEY set it adds Google Places
- * Autocomplete (South Africa only); without it, it's a normal text field.
- * onPlace receives the matched place's full description for the area check.
+ * Address field with real place suggestions.
+ *  - With VITE_GOOGLE_MAPS_API_KEY: Google Places Autocomplete (South Africa only).
+ *  - Without it: free OpenStreetMap suggestions (src/lib/locationSearch.js).
+ * Either way the field stays free text. onPlace receives the picked place's full
+ * description, which the Quick Book service-area check uses.
  */
-export default function AddressInput({ onChange, onPlace, ...props }) {
+export default function AddressInput(props) {
+  return mapsEnabled ? <GoogleAddressInput {...props} /> : <OsmAddressInput {...props} />
+}
+
+function OsmAddressInput({ onChange, onPlace, value, name, ...props }) {
+  const ac = useLocationAutocomplete({ name, value, onChange, onSelect: (opt) => onPlace?.(opt.place) })
+  return <Field name={name} {...props} {...ac.inputProps} after={ac.listbox} />
+}
+
+function GoogleAddressInput({ onChange, onPlace, ...props }) {
   const wrap = useRef(null)
   const latest = useRef({ onChange, onPlace })
   latest.current = { onChange, onPlace }
 
   useEffect(() => {
-    if (!mapsEnabled) return
     let ac
     let listener
     let cancelled = false
@@ -43,7 +54,7 @@ export default function AddressInput({ onChange, onPlace, ...props }) {
 
   return (
     <div ref={wrap}>
-      <Field autoComplete={mapsEnabled ? 'off' : 'street-address'} onChange={onChange} {...props} />
+      <Field autoComplete="off" onChange={onChange} {...props} />
     </div>
   )
 }

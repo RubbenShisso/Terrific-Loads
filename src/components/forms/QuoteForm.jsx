@@ -7,6 +7,7 @@ import { isFormConfigured } from '../../services/formService.js'
 import Field from './Field.jsx'
 import { Button, WhatsAppButton } from '../ui/Button.jsx'
 import useQuoteForm, { WHEN_OPTIONS, summarise } from '../../hooks/useQuoteForm.js'
+import useLocationAutocomplete from '../../hooks/useLocationAutocomplete.jsx'
 
 const today = () => {
   const d = new Date()
@@ -22,6 +23,9 @@ export default function QuoteForm() {
   }, [status])
 
   const err = (name) => (touched[name] ? errors[name] : undefined)
+  // Real place suggestions in the collection and delivery boxes.
+  const collectionAc = useLocationAutocomplete({ name: 'collectionAddress', value: values.collectionAddress, onChange, onBlur })
+  const deliveryAc = useLocationAutocomplete({ name: 'deliveryAddress', value: values.deliveryAddress, onChange, onBlur })
   const bind = (name) => ({
     id: `quote-${name}`,
     name,
@@ -125,14 +129,16 @@ export default function QuoteForm() {
       <Field
         label="Collection store or address"
         hint="For example the store name and branch, or the seller’s address."
-        autoComplete="off"
         {...bind('collectionAddress')}
+        {...collectionAc.inputProps}
+        after={collectionAc.listbox}
       />
       <Field
         label="Delivery location"
         hint="Where it’s going. A suburb is fine for a first quote."
-        autoComplete="street-address"
         {...bind('deliveryAddress')}
+        {...deliveryAc.inputProps}
+        after={deliveryAc.listbox}
       />
       <div className="grid gap-5 sm:grid-cols-2">
         <Field

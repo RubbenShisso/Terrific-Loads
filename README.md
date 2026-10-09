@@ -21,6 +21,7 @@ npm run images     # regenerate images, logo, favicons, share image and hero vid
 | `VITE_FORM_ENDPOINT` | URL that receives quote-form submissions as JSON (for example a Formspree form). If empty, the form offers "Send on WhatsApp instead" with the details pre-filled. |
 | `VITE_GOOGLE_MAPS_API_KEY` | Optional. Enables Quick Book address autocomplete (Maps JavaScript API, Places) and road distance (Routes API). Without it, customers enter a rough distance. Restrict the key to the site's domain. |
 | `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_API_KEY` | Optional. "Book This Delivery" saves bookings to the Firestore `bookings` collection (REST API, no SDK). Security rules must allow only `create` on `bookings`. |
+| `VITE_LOCATION_SEARCH_URL` | Optional. Address suggestions in the collection and delivery boxes use the free Photon service (OpenStreetMap data) by default. Set this to a self-hosted Photon URL if traffic grows. |
 | `VITE_BOOKING_ENDPOINT` | Optional. Any JSON endpoint for bookings instead of Firestore; falls back to `VITE_FORM_ENDPOINT`. With no booking backend, "Book This Delivery" sends the booking on WhatsApp. |
 
 Copy `.env.example` to `.env` to set it locally.
@@ -57,7 +58,7 @@ Booking record fields: bookingId, createdAt, status (pending, confirmed, complet
 ## Client details to confirm
 
 **Rates and the quote calculator**
-- Does exactly 10 km belong to R600 or R850? (Currently R600: each band includes its upper number. Same rule at 20, 30, 40, 50 and 60 km.)
+- Rates are in 5 km bands (1 to 5 km R600, 5 to 10 km R625, then +R25 for the second half of every 10 km up to 55 to 60 km R1 725). Does an exact boundary like 5 km or 10 km belong to the lower or the higher band? (Currently the lower: each band includes its upper number.)
 - Is the price per trip regardless of load size?
 - Are there extra charges (helpers, stairs, after-hours)? None are shown or mentioned until the client supplies them.
 

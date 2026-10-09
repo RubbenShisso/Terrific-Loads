@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'motion/react'
 import useReducedMotionSafe from '../../hooks/useReducedMotionSafe.js'
 import { Copy, Check, FileText, Info } from 'lucide-react'
 import WhatsAppIcon from '../ui/WhatsAppIcon.jsx'
+import useLocationAutocomplete from '../../hooks/useLocationAutocomplete.jsx'
 import { Button } from '../ui/Button.jsx'
 import { whatsappLink } from '../../config/business.js'
 import { rates, getRate, formatRand, bandLabel } from '../../config/rates.js'
@@ -16,7 +17,7 @@ const SLIDER_MAX = rates.maxPricedKm
 
 // Band chips: one per priced band plus "60+".
 const bandChips = [
-  ...rates.bands.map((b) => ({ key: `${b.from}-${b.to}`, label: `${b.from}–${b.to}`, value: b.from === 1 ? 5 : b.from + 5, distanceLabel: bandLabel(b), band: b })),
+  ...rates.bands.map((b) => ({ key: `${b.from}-${b.to}`, label: `${b.from}–${b.to}`, value: Math.round((b.from + b.to) / 2), distanceLabel: bandLabel(b), band: b })),
   { key: 'over', label: `${rates.maxPricedKm}+`, value: rates.maxPricedKm + 1, distanceLabel: `over ${rates.maxPricedKm} km`, band: null },
 ]
 
@@ -59,6 +60,10 @@ export default function QuoteCalculator({ id = 'quote-calculator', quoteHref = '
   const [from, setFrom] = useState('')
   const [to, setTo] = useState('')
   const [copied, setCopied] = useState(null) // null | 'ok' | 'fail'
+
+  // Real place suggestions in the collection and delivery area boxes.
+  const fromAc = useLocationAutocomplete({ value: from, onChange: (e) => setFrom(e.target.value) })
+  const toAc = useLocationAutocomplete({ value: to, onChange: (e) => setTo(e.target.value) })
 
   const rate = useMemo(() => getRate(distance), [distance])
   const message = useMemo(
@@ -164,17 +169,19 @@ export default function QuoteCalculator({ id = 'quote-calculator', quoteHref = '
                 )}
               </p>
             )}
-            <div className="mt-4 flex flex-wrap gap-2" role="group" aria-label="Distance bands">
+            <p className="mt-4 text-sm font-medium text-brand-black" aria-hidden="true">Or pick a range (km)</p>
+            {/* 5 km bands: a compact 4-column grid on phones, wrapping chips on larger screens. */}
+            <div className="mt-2 grid grid-cols-4 gap-2 sm:flex sm:flex-wrap" role="group" aria-label="Distance bands in kilometres">
               {bandChips.map((c) => (
                 <button
                   key={c.key}
                   type="button"
-                  className="chip"
+                  className="chip !px-2 tabular-nums sm:!px-4"
                   aria-pressed={activeChip === c.key}
                   aria-label={c.band ? `${bandLabel(c.band)}, from ${formatRand(c.band.price)}` : `Over ${rates.maxPricedKm} km`}
                   onClick={() => { setDistance(String(c.value)); setDistanceLabel(c.distanceLabel) }}
                 >
-                  {c.label} km
+                  {c.label}
                 </button>
               ))}
             </div>
@@ -220,13 +227,19 @@ export default function QuoteCalculator({ id = 'quote-calculator', quoteHref = '
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               <div>
                 <label htmlFor={ids.from} className="text-sm font-medium text-brand-black">Collection area <span className="font-normal text-muted">(optional)</span></label>
-                <input id={ids.from} value={from} onChange={(e) => setFrom(e.target.value)} placeholder="e.g. Tyger Valley" autoComplete="off"
-                  className="mt-1.5 block min-h-12 w-full rounded-xl border border-line bg-white px-4 text-ink placeholder:text-muted/80 focus:border-brand-black" />
+                <div className="relative">
+                  <input id={ids.from} placeholder="e.g. Tyger Valley" {...fromAc.inputProps}
+                    className="mt-1.5 block min-h-12 w-full rounded-xl border border-line bg-white px-4 text-ink placeholder:text-muted/80 focus:border-brand-black" />
+                  {fromAc.listbox}
+                </div>
               </div>
               <div>
                 <label htmlFor={ids.to} className="text-sm font-medium text-brand-black">Delivery area <span className="font-normal text-muted">(optional)</span></label>
-                <input id={ids.to} ref={toRef} value={to} onChange={(e) => setTo(e.target.value)} placeholder="e.g. Durbanville" autoComplete="off"
-                  className="mt-1.5 block min-h-12 w-full rounded-xl border border-line bg-white px-4 text-ink placeholder:text-muted/80 focus:border-brand-black" />
+                <div className="relative">
+                  <input id={ids.to} ref={toRef} placeholder="e.g. Durbanville" {...toAc.inputProps}
+                    className="mt-1.5 block min-h-12 w-full rounded-xl border border-line bg-white px-4 text-ink placeholder:text-muted/80 focus:border-brand-black" />
+                  {toAc.listbox}
+                </div>
               </div>
             </div>
           </fieldset>
