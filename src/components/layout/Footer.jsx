@@ -57,7 +57,20 @@ export default function Footer() {
       <div className="border-t border-white/15">
         <Container className="flex flex-col gap-2 pt-6 pb-28 text-sm sm:flex-row sm:items-center sm:justify-between lg:pb-6">
           <p className="text-white/75">© {new Date().getFullYear()} {business.name}. All rights reserved.</p>
-          <Link to="/privacy" className={link}>Privacy policy</Link>
+          <div className="flex flex-col gap-x-6 sm:flex-row sm:items-center">
+            <Link to="/privacy" className={link}>Privacy policy</Link>
+            <p className="inline-flex min-h-10 items-center text-white/75">
+              Built by&nbsp;
+              <a
+                href="https://www.anchornoirstudios.co.za/"
+                target="_blank"
+                rel="noopener"
+                className="inline-flex min-h-10 items-center font-semibold text-white underline decoration-brand-yellow decoration-2 underline-offset-4 transition-colors hover:text-brand-yellow"
+              >
+                Anchor Noir Studios
+              </a>
+            </p>
+          </div>
         </Container>
       </div>
     </footer>

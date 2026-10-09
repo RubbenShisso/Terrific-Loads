@@ -9,7 +9,7 @@ export const pages = {
     path: '/',
     title: null,
     description:
-      'Bought furniture, appliances or bulky items that won’t fit in your car? Terrific Loads offers convenient retail collection and delivery services. Request a quote today.',
+      'Bought furniture, appliances or bulky items that won’t fit in your car? Terrific Loads offers same-day and next-day retail collection and delivery. Request a quote today.',
   },
   about: {
     path: '/about',
@@ -20,7 +20,7 @@ export const pages = {
     path: '/services',
     title: 'Services',
     description:
-      'Furniture delivery, appliance delivery (fridges, washing machines, dishwashers), bulky item collection and same-day store collection in Cape Town and surrounding areas.',
+      'Furniture delivery, appliance delivery (fridges, washing machines, dishwashers), bulky item collection, and same-day and next-day delivery in Cape Town and surrounding areas.',
   },
   quote: {
     path: '/quote',

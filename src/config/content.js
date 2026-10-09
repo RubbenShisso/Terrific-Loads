@@ -60,9 +60,9 @@ export const services = [
     id: 'same-day',
     primary: true,
     icon: Clock,
-    title: 'Same-day store collection',
-    short: 'Bought something today but the store can’t deliver it? Check if we can collect it.',
-    body: 'Bought something today but the store can’t deliver it today? Contact us to check whether same-day collection and delivery can be arranged. Next-day collection is also available, subject to availability.',
+    title: 'Same-day & next-day delivery',
+    short: 'Bought something today but the store can’t deliver soon? We can collect it today or tomorrow.',
+    body: 'Bought something today but the store can’t deliver it when you need it? We offer same-day delivery, where we collect from the store and deliver the same day, and next-day delivery for tomorrow. Contact us to check availability for your item.',
     photo: 'store-collection',
   },
   {

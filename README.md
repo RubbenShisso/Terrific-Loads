@@ -19,8 +19,27 @@ npm run images     # regenerate images, logo, favicons, share image and hero vid
 | Variable | Purpose |
 |---|---|
 | `VITE_FORM_ENDPOINT` | URL that receives quote-form submissions as JSON (for example a Formspree form). If empty, the form offers "Send on WhatsApp instead" with the details pre-filled. |
+| `VITE_GOOGLE_MAPS_API_KEY` | Optional. Enables Quick Book address autocomplete (Maps JavaScript API, Places) and road distance (Routes API). Without it, customers enter a rough distance. Restrict the key to the site's domain. |
+| `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_API_KEY` | Optional. "Book This Delivery" saves bookings to the Firestore `bookings` collection (REST API, no SDK). Security rules must allow only `create` on `bookings`. |
+| `VITE_BOOKING_ENDPOINT` | Optional. Any JSON endpoint for bookings instead of Firestore; falls back to `VITE_FORM_ENDPOINT`. With no booking backend, "Book This Delivery" sends the booking on WhatsApp. |
 
 Copy `.env.example` to `.env` to set it locally.
+
+## Quick Book
+
+One reusable booking flow (`src/components/booking/`), opened from the homepage Quick Book cards, Popular items and the three scenario spotlights through `BookingProvider`. Steps: items, collection, delivery (and distance), date and time slot, customer details, estimated quote. Progress is kept for the browser tab, and "Continue on WhatsApp" is available on every step with everything entered so far.
+
+| What | File |
+|---|---|
+| Items and popular items | `src/config/items.js` |
+| Scenarios, collection and property types | `src/config/scenarios.js` |
+| Pricing engine values (all CLIENT TO CONFIRM) | `src/config/pricing.js` |
+| Quick Book area rules | `src/config/serviceAreas.js` |
+| Time slots, closing time, same-day cut-off | `src/config/timeSlots.js` |
+| Quote maths, distance, area check, WhatsApp message, availability | `src/lib/` |
+| Booking records and storage | `src/services/bookingService.js` |
+
+Booking record fields: bookingId, createdAt, status (pending, confirmed, completed, cancelled), scenario, items, collection, delivery, distanceKm, travelDuration, date, timeSlot, customer, quote, source. There is no online payment.
 
 ## Where things live
 
@@ -49,6 +68,14 @@ Copy `.env.example` to `.env` to set it locally.
 - Weekend delivery policy and whether helpers are offered (left out of the FAQ until confirmed).
 - Domain name and which form service to use.
 - Privacy policy wording (POPIA).
+
+**Quick Book**
+- Pricing values in `src/config/pricing.js`: base fee, minimum charge, per-item fees for all 18 items, and the stairs, evening and same-day surcharges. Until they are filled in, Quick Book shows "From R…" using only the distance rates.
+- Whether Quick Book should keep using the distance bands, or a per-km rate (`perKmRate`, `includedKm`).
+- Latest same-day booking time per slot (`leadMinutes`, currently 60 minutes before the slot ends).
+- Maximum Quick Book distance (currently 60 km) and any areas to block.
+- Whether "Book This Delivery" should save bookings (Firestore or an endpoint), or keep sending them on WhatsApp.
+- A Google Maps API key if automatic road distance and address suggestions are wanted (Google bills for usage).
 
 **Broader positioning (furniture, appliances and bulky items)**
 - The logo's tagline reads "Furniture Delivery". Does the owner want an updated logo or tagline to match the broader offer? The site uses the current approved logo unchanged.

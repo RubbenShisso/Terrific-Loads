@@ -16,8 +16,8 @@ export class FormServiceError extends Error {
   }
 }
 
-export async function submitForm(data, { formName = 'quote', timeoutMs = 15000 } = {}) {
-  if (!endpoint) {
+export async function submitForm(data, { formName = 'quote', timeoutMs = 15000, endpoint: target = endpoint } = {}) {
+  if (!target) {
     throw new FormServiceError('The quote form is not connected yet.', 'not-configured')
   }
 
@@ -25,7 +25,7 @@ export async function submitForm(data, { formName = 'quote', timeoutMs = 15000 }
   const timer = setTimeout(() => controller.abort(), timeoutMs)
 
   try {
-    const res = await fetch(endpoint, {
+    const res = await fetch(target, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({ ...data, _form: formName, _subject: `New ${formName} request` }),

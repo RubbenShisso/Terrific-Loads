@@ -53,6 +53,10 @@ export const messages = {
   promo: "Hi Terrific Loads, I found a deal in store and need it delivered. Can you help?",
 }
 
+/** WhatsApp message about one item, used by the Popular items cards. */
+export const itemMessage = (itemName) => `${business.whatsapp.message}
+Item: ${itemName.toLowerCase()}.`
+
 /** WhatsApp message about one service, used by the service cards. */
 export const serviceMessage = (serviceTitle) => `${business.whatsapp.message}
 Service: ${serviceTitle}.`

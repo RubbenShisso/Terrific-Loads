@@ -1,4 +1,4 @@
-import { ArrowDown, MapPin } from 'lucide-react'
+import { ArrowDown, Clock, MapPin } from 'lucide-react'
 import { Container } from '../ui/Section.jsx'
 import { Button, WhatsAppButton } from '../ui/Button.jsx'
 import HeroMedia from './HeroMedia.jsx'
@@ -13,12 +13,20 @@ export default function Hero() {
       <InteractiveBackdrop rest={['20%', '10%']} />
       <Container className="relative grid items-center gap-10 py-10 sm:py-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:py-20">
         <div>
-          <p className="inline-flex items-center gap-2 rounded-full border border-line bg-surface py-1 pr-3 pl-1 text-sm font-medium text-brand-black">
-            <span className="grid size-6 place-items-center rounded-full bg-brand-yellow">
-              <MapPin className="size-3.5" aria-hidden="true" />
-            </span>
-            {business.serviceArea}
-          </p>
+          <div className="flex flex-wrap items-center gap-2">
+            <p className="inline-flex items-center gap-2 rounded-full border border-brand-black bg-brand-yellow py-1 pr-3 pl-1 text-sm font-bold text-brand-black">
+              <span className="grid size-6 place-items-center rounded-full bg-brand-black text-brand-yellow">
+                <Clock className="size-3.5" aria-hidden="true" />
+              </span>
+              Same-Day &amp; Next-Day Delivery
+            </p>
+            <p className="inline-flex items-center gap-2 rounded-full border border-line bg-surface py-1 pr-3 pl-1 text-sm font-medium text-brand-black">
+              <span className="grid size-6 place-items-center rounded-full bg-brand-yellow">
+                <MapPin className="size-3.5" aria-hidden="true" />
+              </span>
+              {business.serviceArea}
+            </p>
+          </div>
 
           <h1 className="mt-5 text-[2.3rem] leading-[1.08] font-extrabold sm:text-5xl lg:text-[3.5rem]">
             Bought Something Too Big for Your Car?
