@@ -36,7 +36,7 @@ export default function Privacy() {
           <div>
             <h2>Who we share it with</h2>
             <p>
-              Quote requests are sent to us on WhatsApp, which is run by Meta, or through a third-party form service if you choose that option. We share delivery details with a store or seller only when needed to collect your items. When you type in a collection or delivery box, the address text is sent to an address-suggestion service (Photon, using OpenStreetMap data) to show matching places; your name and contact details are never sent with it.
+              Quote requests are sent to us on WhatsApp, which is run by Meta. We share delivery details with a store or seller only when needed to collect your items. When you type in a collection or delivery box, the address text is sent to an address-suggestion service (Photon, using OpenStreetMap data) to show matching places, and the two locations are sent to a route-planning service (OpenStreetMap routing) to work out the driving distance. Your name and contact details are never sent with them.
             </p>
           </div>
           <div>

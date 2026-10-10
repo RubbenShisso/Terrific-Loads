@@ -38,11 +38,11 @@ export default function Hero() {
           <p className="mt-4 max-w-xl text-lg text-muted">
             Bought furniture, a fridge, washing machine, or another large item? Don’t let transportation hold you back.
             Terrific Loads helps you get bulky purchases from the store to your doorstep, with convenient same-day and
-            next-day collection options, subject to availability.
+            next-day collection options, subject to availability. We’re a collection and delivery service. We don’t sell furniture.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <WhatsAppButton label="Get a Delivery Quote" magnetic className={big} />
+            <WhatsAppButton magnetic className={big} />
             <Button href="#how-it-works" variant="dark" className={big}>
               How It Works
               <ArrowDown className="size-5" aria-hidden="true" />

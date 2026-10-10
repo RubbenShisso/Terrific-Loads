@@ -12,10 +12,9 @@ import ServiceAreas from '../components/sections/ServiceAreas.jsx'
 import WhatWeDeliver from '../components/sections/WhatWeDeliver.jsx'
 import StoresCollectedFrom from '../components/sections/StoresCollectedFrom.jsx'
 import PromoBanner from '../components/sections/PromoBanner.jsx'
-import QuickBookSection from '../components/sections/QuickBookSection.jsx'
 import PopularItems from '../components/sections/PopularItems.jsx'
 import ScenarioSpotlights from '../components/sections/ScenarioSpotlights.jsx'
-import QuoteCalculator from '../components/quote/QuoteCalculator.jsx'
+import QuoteFlow from '../components/quote/QuoteFlow.jsx'
 import { Section } from '../components/ui/Section.jsx'
 
 export default function Home() {
@@ -23,9 +22,10 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <QuickBookSection />
-      <Section className="bg-surface !py-10 sm:!py-14">
-        <QuoteCalculator />
+      <Section className="border-t border-line bg-surface !py-10 sm:!py-14">
+        <div className="mx-auto max-w-3xl">
+          <QuoteFlow />
+        </div>
       </Section>
       <Benefits />
       <ServicesOverview />

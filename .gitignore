@@ -14,3 +14,6 @@ qa-screenshots/
 # WhatsApp voice notes are private client communication. Never commit or deploy them.
 WhatsApp Ptt *
 *.opus
+
+# Local demo screenshots
+.demo-shots/

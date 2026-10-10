@@ -26,7 +26,7 @@ export function Button({ to, href, variant = 'dark', magnetic = false, className
   return <button ref={ref} className={cls} {...props}>{children}</button>
 }
 
-export function WhatsAppButton({ label = 'Get a Quote on WhatsApp', message, magnetic = false, className = '' }) {
+export function WhatsAppButton({ label = 'Get a Delivery Quote on WhatsApp', message, magnetic = false, className = '' }) {
   return (
     <Button href={whatsappLink(message)} target="_blank" rel="noopener noreferrer" variant="whatsapp" magnetic={magnetic} className={className}>
       <WhatsAppIcon />

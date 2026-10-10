@@ -1,39 +1,28 @@
 /**
- * Terrific Loads distance rates, supplied by the client.
+ * Terrific Loads delivery prices, supplied by the client.
  * This is the only place prices live. Components read them through getRate().
  *
- * 5 km bands: within each 10 km stretch the second 5 km costs R25 more
- * (1 to 5 km R600, 5 to 10 km R625, 10 to 15 km R850, 15 to 20 km R875, ...).
+ * Standard prices by driving distance. Bands never overlap: each band includes
+ * its upper number (exactly 10 km is R650, 10.1 km is R850).
+ * Express Delivery is the standard price plus `expressExtra`.
  *
- * Boundary rule: each band INCLUDES its upper number.
- *   exactly 5 km   -> R600 (1 to 5 km)
- *   5.1 km         -> R625 (5 to 10 km)
- *   exactly 10 km  -> R625 (5 to 10 km)
- *   exactly 60 km  -> R1 725 (55 to 60 km)
- *   above 60 km    -> no price, customer is asked to WhatsApp for a quote
- * (Client to confirm which band each exact boundary belongs to.)
+ * These prices cover ONE straightforward item on a single route. Multiple
+ * items, extra stops, difficult access, unusually heavy items or special
+ * handling are quoted on WhatsApp (see quoteOutcome in src/config/quote.js).
  */
 export const rates = {
   currency: 'R',
   bands: [
-    { from: 1, to: 5, price: 600 },
-    { from: 5, to: 10, price: 625 },
-    { from: 10, to: 15, price: 850 },
-    { from: 15, to: 20, price: 875 },
-    { from: 20, to: 25, price: 1000 },
-    { from: 25, to: 30, price: 1025 },
-    { from: 30, to: 35, price: 1200 },
-    { from: 35, to: 40, price: 1225 },
-    { from: 40, to: 45, price: 1500 },
-    { from: 45, to: 50, price: 1525 },
-    { from: 50, to: 55, price: 1700 },
-    { from: 55, to: 60, price: 1725 },
+    { from: 0, to: 10, price: 650 },
+    { from: 10, to: 20, price: 850 },
+    { from: 20, to: 30, price: 1000 },
+    { from: 30, to: 40, price: 1200 },
+    { from: 40, to: 50, price: 1500 },
+    { from: 50, to: 60, price: 1700 },
   ],
+  expressExtra: 150,
   maxPricedKm: 60,
-  minKm: 1,
-  maxKm: 999,
-  note: 'Estimate only. We confirm your final quote on WhatsApp.',
-  overMaxMessage: 'Over 60 km? WhatsApp us for a quote.',
+  note: 'Indicative price for one straightforward item. Multiple items, extra stops, difficult access, unusually heavy items or special handling may need a revised quote.',
 }
 
 /** Formats a whole rand amount as "R1 000" (space as thousands separator). */
@@ -42,21 +31,18 @@ export function formatRand(amount) {
   return `${rates.currency}${digits}`
 }
 
-export const bandLabel = (band) => `${band.from} to ${band.to} km`
+/** "up to 10 km", "over 10 to 20 km". */
+export const bandLabel = (band) => (band.from === 0 ? `up to ${band.to} km` : `over ${band.from} to ${band.to} km`)
 
 /**
- * Looks up the rate for a distance.
- * Returns { status: 'empty' | 'invalid' | 'priced' | 'over', band?, price?, message? }
+ * Prices for a driving distance.
+ * Returns { status: 'invalid' } | { status: 'over', km } |
+ *         { status: 'priced', km, band, standard, express }
  */
 export function getRate(input) {
-  if (input === '' || input === null || input === undefined) return { status: 'empty' }
   const km = typeof input === 'number' ? input : Number(input)
-  if (!Number.isFinite(km)) return { status: 'invalid', message: 'Enter the distance as a number, for example 14.' }
-  if (km <= 0) return { status: 'invalid', message: 'Distance needs to be more than 0 km.' }
-  if (km < rates.minKm) return { status: 'invalid', message: `Enter at least ${rates.minKm} km.` }
-  if (km > rates.maxKm) return { status: 'invalid', message: `Enter a distance up to ${rates.maxKm} km.` }
-  if (km > rates.maxPricedKm) return { status: 'over', km, message: rates.overMaxMessage }
-  // Upper bound is inclusive: the first band whose "to" is >= km.
+  if (input === '' || input === null || input === undefined || !Number.isFinite(km) || km < 0) return { status: 'invalid' }
+  if (km > rates.maxPricedKm) return { status: 'over', km }
   const band = rates.bands.find((b) => km <= b.to)
-  return { status: 'priced', km, band, price: band.price }
+  return { status: 'priced', km, band, standard: band.price, express: band.price + rates.expressExtra }
 }

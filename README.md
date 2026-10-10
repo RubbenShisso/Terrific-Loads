@@ -1,6 +1,6 @@
 # Terrific Loads website
 
-Same-day and next-day furniture delivery in Cape Town. React + Vite + Tailwind CSS v4, Motion for animation, Lucide icons.
+Furniture and large-item collection and delivery in Cape Town. React + Vite + Tailwind CSS v4, Motion for animation, Lucide icons.
 
 ## Run and build
 
@@ -16,67 +16,71 @@ npm run images     # regenerate images, logo, favicons, share image and hero vid
 
 ## Environment variables
 
+All optional. The site works without any of them.
+
 | Variable | Purpose |
 |---|---|
-| `VITE_FORM_ENDPOINT` | URL that receives quote-form submissions as JSON (for example a Formspree form). If empty, the form offers "Send on WhatsApp instead" with the details pre-filled. |
-| `VITE_GOOGLE_MAPS_API_KEY` | Optional. Enables Quick Book address autocomplete (Maps JavaScript API, Places) and road distance (Routes API). Without it, customers enter a rough distance. Restrict the key to the site's domain. |
-| `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_API_KEY` | Optional. "Book This Delivery" saves bookings to the Firestore `bookings` collection (REST API, no SDK). Security rules must allow only `create` on `bookings`. |
-| `VITE_LOCATION_SEARCH_URL` | Optional. Address suggestions in the collection and delivery boxes use the free Photon service (OpenStreetMap data) by default. Set this to a self-hosted Photon URL if traffic grows. |
-| `VITE_BOOKING_ENDPOINT` | Optional. Any JSON endpoint for bookings instead of Firestore; falls back to `VITE_FORM_ENDPOINT`. With no booking backend, "Book This Delivery" sends the booking on WhatsApp. |
+| `VITE_LOCATION_SEARCH_URL` | Address suggestions use the free Photon service (OpenStreetMap data) by default. Set this to a self-hosted Photon URL if traffic grows. |
+| `VITE_ROUTING_URL` | Driving distance uses free OSRM routing on OpenStreetMap data (the FOSSGIS server behind openstreetmap.org) by default. Set your own OSRM server URL for heavier use. |
+| `VITE_GOOGLE_MAPS_API_KEY` | Works out the driving distance with the Google Routes API instead. Address suggestions still use OpenStreetMap until Google Places is added. Restrict the key to the site's domain. |
 
-Copy `.env.example` to `.env` to set it locally.
+Copy `.env.example` to `.env` to set them locally.
 
-## Quick Book
+## Quote flow
 
-One reusable booking flow (`src/components/booking/`), opened from the homepage Quick Book cards, Popular items and the three scenario spotlights through `BookingProvider`. Steps: items, collection, delivery (and distance), date and time slot, customer details, estimated quote. Progress is kept for the browser tab, and "Continue on WhatsApp" is available on every step with everything entered so far.
+One quote form (`src/components/quote/QuoteFlow.jsx`) on the home page and the quote page, following the client's brief:
 
-| What | File |
-|---|---|
-| Items and popular items | `src/config/items.js` |
-| Scenarios, collection and property types | `src/config/scenarios.js` |
-| Pricing engine values (all CLIENT TO CONFIRM) | `src/config/pricing.js` |
-| Quick Book area rules | `src/config/serviceAreas.js` |
-| Time slots, closing time, same-day cut-off | `src/config/timeSlots.js` |
-| Quote maths, distance, area check, WhatsApp message, availability | `src/lib/` |
-| Booking records and storage | `src/services/bookingService.js` |
+1. **Items:** Couch / Sofa, Table, Chairs, Fridge, Bed / Mattress, Wardrobe, or Other with a description, each with a quantity.
+2. **Addresses:** collection and delivery, plus "Do you need us to collect from or deliver to more than one location?". Yes adds stops, each with collect or deliver, an address and what happens there. The driving distance is worked out through every stop in order.
+3. **Delivery option:** Standard, Express (standard + R150), Scheduled or a Budget-Friendly Request, in the client's wording.
+4. **Details:** preferred date, name, contact number and notes, then "Get a delivery quote on WhatsApp" opens WhatsApp with everything filled in.
 
-Booking record fields: bookingId, createdAt, status (pending, confirmed, completed, cancelled), scenario, items, collection, delivery, distanceKm, travelDuration, date, timeSlot, customer, quote, source. There is no online payment.
+Indicative prices are shown only for one item on a single route whose driving distance was found and is 60 km or less. Multiple items, extra stops, addresses that can't be found, routes that can't be worked out and routes over 60 km get no price: the customer is asked to send the details for a quote on WhatsApp. No price is shown before both addresses are in. There is no online booking or payment. A 50% deposit is arranged on WhatsApp after the job is agreed.
+
+Popular items' "Get a quote" buttons add the item to the form on the home page, or open `/quote?item=<id>`. The "Where we deliver" chips fill in the delivery address. Progress is kept for the browser tab.
 
 ## Where things live
 
 | What | File |
 |---|---|
 | Phone numbers, WhatsApp message, service-area chips, Google reviews link | `src/config/business.js` (only place for contact details) |
-| Delivery rates, price format, estimate note | `src/config/rates.js` (only place for prices) |
-| Calculator chips and WhatsApp message builder | `src/config/quote.js` |
+| Delivery prices, Express surcharge, price note | `src/config/rates.js` (only place for prices) |
+| Quote items | `src/config/items.js` |
+| Delivery options, when a price may be shown, WhatsApp message | `src/config/quote.js` |
 | Page copy, services, FAQ, gallery, hero video | `src/config/content.js` |
 | Google reviews (word for word) | `src/config/reviews.js` |
 | Brand colours | theme tokens in `src/index.css` |
+| Page titles, descriptions, sitemap and SEO tags | `src/config/seo.js` (add a page here and it appears in the sitemap) |
+
+## SEO and sitemap
+
+`npm run build` writes, from the page list in `src/config/seo.js`:
+
+- each page's title, description, canonical link, Open Graph and Twitter tags (the 404 page gets `noindex` instead),
+- `dist/sitemap.xml` with every indexable page,
+- `dist/robots.txt` pointing search engines at the sitemap.
+
+Visitors get a readable sitemap at `/sitemap`, linked from the footer. All absolute URLs use `business.siteUrl`, so set the real domain there before launch, then submit `https://<domain>/sitemap.xml` in Google Search Console. LocalBusiness structured data comes from `src/components/layout/BusinessSchema.jsx`.
 
 `client-assets/` holds the client's raw material (photos, videos, logo files, chat export). It is never imported, committed or deployed.
 
 ## Client details to confirm
 
-**Rates and the quote calculator**
-- Rates are in 5 km bands (1 to 5 km R600, 5 to 10 km R625, then +R25 for the second half of every 10 km up to 55 to 60 km R1 725). Does an exact boundary like 5 km or 10 km belong to the lower or the higher band? (Currently the lower: each band includes its upper number.)
-- Is the price per trip regardless of load size?
-- Are there extra charges (helpers, stairs, after-hours)? None are shown or mentioned until the client supplies them.
+**Prices and the quote flow**
+- Prices (client brief): up to 10 km R650, over 10 to 20 km R850, over 20 to 30 km R1 000, over 30 to 40 km R1 200, over 40 to 50 km R1 500, over 50 to 60 km R1 700. Express is R150 more. Each band includes its upper number, so exactly 10 km is R650.
+- Is a quantity above one of the same item (for example four chairs) a multiple-item job? The site currently treats it as one and asks for a WhatsApp quote.
+- The form allows up to 6 extra stops. Is that enough?
 
 **Content**
 - Kiru's WhatsApp number (+27 81 565 7009) and Sura's number (+27 67 294 1515).
 - The exact suburbs for the "Where we deliver" chips. The current list is a draft of broad Cape Town areas.
 - The three Google reviews (word for word) and the Google Business Profile link.
 - Weekend delivery policy and whether helpers are offered (left out of the FAQ until confirmed).
-- Domain name and which form service to use.
+- Domain name (set `siteUrl` in `src/config/business.js`; the sitemap, canonical links and share images use it).
 - Privacy policy wording (POPIA).
 
-**Quick Book**
-- Pricing values in `src/config/pricing.js`: base fee, minimum charge, per-item fees for all 18 items, and the stairs, evening and same-day surcharges. Until they are filled in, Quick Book shows "From R…" using only the distance rates.
-- Whether Quick Book should keep using the distance bands, or a per-km rate (`perKmRate`, `includedKm`).
-- Latest same-day booking time per slot (`leadMinutes`, currently 60 minutes before the slot ends).
-- Maximum Quick Book distance (currently 60 km) and any areas to block.
-- Whether "Book This Delivery" should save bookings (Firestore or an endpoint), or keep sending them on WhatsApp.
-- A Google Maps API key if automatic road distance and address suggestions are wanted (Google bills for usage).
+**Google Maps (optional)**
+- A Google Maps API key with Places API (New) and Routes API, if better address search and Google road distances are wanted (Google bills for usage beyond its free allowance).
 
 **Broader positioning (furniture, appliances and bulky items)**
 - The logo's tagline reads "Furniture Delivery". Does the owner want an updated logo or tagline to match the broader offer? The site uses the current approved logo unchanged.

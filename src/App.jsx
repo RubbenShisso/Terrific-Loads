@@ -10,6 +10,7 @@ const Services = lazyPage(() => import('./pages/Services.jsx'))
 const Quote = lazyPage(() => import('./pages/Quote.jsx'))
 const Contact = lazyPage(() => import('./pages/Contact.jsx'))
 const Privacy = lazyPage(() => import('./pages/Privacy.jsx'))
+const Sitemap = lazyPage(() => import('./pages/Sitemap.jsx'))
 const NotFound = lazyPage(() => import('./pages/NotFound.jsx'))
 
 /** Loads a page's code ahead of hydration (see main.jsx). */
@@ -19,6 +20,7 @@ export const preloadPage = {
   '/quote': Quote.preload,
   '/contact': Contact.preload,
   '/privacy': Privacy.preload,
+  '/sitemap': Sitemap.preload,
   '*': NotFound.preload,
 }
 
@@ -33,6 +35,7 @@ export default function App() {
           <Route path="quote" element={<Quote />} />
           <Route path="contact" element={<Contact />} />
           <Route path="privacy" element={<Privacy />} />
+          <Route path="sitemap" element={<Sitemap />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

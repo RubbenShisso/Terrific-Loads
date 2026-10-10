@@ -35,7 +35,7 @@ function toSuggestion(feature, typedNumber) {
     primary,
     secondary,
     label,
-    // Used by the Quick Book service-area check.
+    // Full place description (suburb, province, country).
     place: [label, p.state, p.country].filter(Boolean).join(', '),
     lat: feature.geometry?.coordinates?.[1],
     lon: feature.geometry?.coordinates?.[0],

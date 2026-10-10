@@ -6,7 +6,6 @@ import Header from './Header.jsx'
 import Footer from './Footer.jsx'
 import MobileActionBar from './MobileActionBar.jsx'
 import BusinessSchema from './BusinessSchema.jsx'
-import { BookingProvider } from '../booking/BookingProvider.jsx'
 
 export default function Layout() {
   const { pathname, hash } = useLocation()
@@ -29,8 +28,7 @@ export default function Layout() {
   }, [pathname, hash])
 
   return (
-    // BookingProvider: lets any button on any page open the Quick Book flow.
-    <BookingProvider>
+    <>
       <div className="flex min-h-dvh flex-col">
         <a
           href="#main"
@@ -56,6 +54,6 @@ export default function Layout() {
         <MobileActionBar />
         <BusinessSchema />
       </div>
-    </BookingProvider>
+    </>
   )
 }

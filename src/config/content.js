@@ -89,11 +89,12 @@ export const benefits = [
   { icon: House, title: 'Straight to your door', text: 'Wrapped, secured and delivered with care.' },
 ]
 
+/** The client's process: items -> addresses -> prices and option -> WhatsApp -> deposit -> delivery. */
 export const steps = [
-  { title: 'Buy your item', text: 'Purchase furniture, an appliance or another bulky item from your preferred retailer.' },
-  { title: 'Contact Terrific Loads', text: 'Send the collection location, delivery address, item details and preferred delivery time.' },
-  { title: 'Confirm your quote', text: 'Receive a delivery quote and confirm availability.' },
-  { title: 'We collect & deliver', text: 'Our team collects your item and transports it to your requested destination.' },
+  { title: 'Tell us what and where', text: 'Choose your items, then add the collection address, the delivery address and any extra stops.' },
+  { title: 'See your price', text: 'Get indicative Standard and Express prices for a straightforward delivery, then choose your delivery option.' },
+  { title: 'Confirm on WhatsApp', text: 'We check the details and confirm the price and availability. A 50% deposit then secures your booking.' },
+  { title: 'We collect & deliver', text: 'The rest is paid before delivery, and we bring your item from the store to your door.' },
 ]
 
 /** "If it won't fit in your car" categories. Decorative icons, real item types. */
@@ -144,7 +145,7 @@ export const faqs = [
   {
     id: 'how-quickly',
     q: 'How quickly can you deliver?',
-    a: 'We offer same-day and next-day collection and delivery, subject to availability and what needs to be moved. Message us early in the day for the best chance of a same-day slot.',
+    a: 'Standard Delivery can be the same day, with the delivery time agreed on WhatsApp. Express Delivery targets delivery within 3 hours, subject to availability. You can also schedule a delivery for the next day or a later date.',
   },
   { id: 'where', q: 'Where do you deliver?', a: 'Cape Town and surrounding areas.' },
   {
@@ -160,12 +161,27 @@ export const faqs = [
   {
     id: 'get-a-quote',
     q: 'How do I get a quote?',
-    a: 'WhatsApp us the collection store or address, the delivery address and what needs to be delivered, or fill in the quote form. We’ll reply with a price.',
+    a: 'Use the quote form: choose your items, add the collection and delivery addresses and any extra stops, pick a delivery option and send it to us on WhatsApp. We confirm the price and availability there.',
   },
   {
     id: 'cost',
     q: 'How much does delivery cost?',
-    a: 'Our rates depend on distance. Use the quote calculator for an estimate, then send it to us on WhatsApp and we’ll confirm your final quote.',
+    a: 'Standard Delivery is priced by driving distance. Enter your items and addresses in the quote form to see the indicative price. Express Delivery costs R150 more than Standard. These prices are for one straightforward item. Multiple items, extra stops, difficult access, unusually heavy items or special handling are quoted on WhatsApp, and so are routes over 60 km.',
+  },
+  {
+    id: 'budget',
+    q: 'I need it today but I’m on a tight budget. Can you help?',
+    a: 'Depending on the item and delivery requirements, we may be able to offer you a lower price. Message us on WhatsApp, and we’ll see what we can arrange. A lower price isn’t guaranteed.',
+  },
+  {
+    id: 'payment',
+    q: 'How do I pay?',
+    a: 'We never ask for payment before we’ve checked your details, confirmed availability and agreed to the job on WhatsApp. A 50% deposit then secures your booking, and the remaining 50% is paid before delivery. Your booking is confirmed once we’ve acknowledged the job and received the deposit.',
+  },
+  {
+    id: 'sell',
+    q: 'Do you sell furniture?',
+    a: 'No. Terrific Loads is a collection and delivery service for furniture and other large items. You buy the item, and we collect it and deliver it for you.',
   },
 ]
 

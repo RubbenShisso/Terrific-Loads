@@ -59,6 +59,7 @@ export default function Footer() {
           <p className="text-white/75">© {new Date().getFullYear()} {business.name}. All rights reserved.</p>
           <div className="flex flex-col gap-x-6 sm:flex-row sm:items-center">
             <Link to="/privacy" className={link}>Privacy policy</Link>
+            <Link to="/sitemap" className={link}>Sitemap</Link>
             <p className="inline-flex min-h-10 items-center text-white/75">
               Built by&nbsp;
               <a

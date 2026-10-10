@@ -9,7 +9,6 @@ import WhatsAppIcon from '../components/ui/WhatsAppIcon.jsx'
 import { WhatsAppButton, QuoteButton } from '../components/ui/Button.jsx'
 import { services } from '../config/content.js'
 import { whatsappLink, serviceMessage } from '../config/business.js'
-import QuoteCalculator from '../components/quote/QuoteCalculator.jsx'
 
 function ServiceDetail({ service, index }) {
   const { id, icon, title, body, photo } = service
@@ -50,14 +49,10 @@ export default function Services() {
         intro="Bought something too big for your car, or the store can’t deliver soon enough? We collect it from the store and deliver it to you."
       >
         <div className="flex flex-col gap-3 sm:flex-row">
-          <WhatsAppButton label="Get a Delivery Quote" />
-          <QuoteButton />
+          <WhatsAppButton />
+          <QuoteButton label="Get a Delivery Quote" />
         </div>
       </PageHeader>
-
-      <Container className="pt-10 sm:pt-14">
-        <QuoteCalculator />
-      </Container>
 
       <Container className="divide-y divide-line">
         {main.map((s, i) => <ServiceDetail key={s.id} service={s} index={i} />)}
