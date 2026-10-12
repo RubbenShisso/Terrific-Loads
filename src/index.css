@@ -220,3 +220,41 @@ html.custom-cursor :is(input:not([type='checkbox']):not([type='radio']), textare
 .cursor-dot[data-state='text'] {
   opacity: 0;
 }
+
+/*
+ * Hero route animation (see HeroRoute.jsx): the dashed line draws once, then the
+ * truck drives along the same curve on a loop.
+ */
+.hero-route-line {
+  stroke: var(--color-brand-black);
+  stroke-width: 2.5;
+  stroke-dasharray: 6 7;
+  stroke-linecap: round;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-route-line {
+    animation: route-draw 1.4s ease-out both;
+  }
+  .hero-route-truck {
+    animation: route-drive 5s ease-in-out infinite;
+  }
+}
+@keyframes route-draw {
+  from {
+    stroke-dashoffset: 400;
+    opacity: 0;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+@keyframes route-drive {
+  /* left follows the line; top traces its two humps */
+  0% { left: 0; top: 50%; }
+  14% { left: 14%; top: 33%; }
+  38% { left: 38%; top: 68%; }
+  50% { left: 50%; top: 50%; }
+  70% { left: 70%; top: 30%; }
+  100% { left: calc(100% - 2rem); top: 50%; }
+}

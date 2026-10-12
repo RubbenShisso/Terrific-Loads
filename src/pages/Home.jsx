@@ -1,6 +1,7 @@
 import usePageMeta from '../hooks/usePageMeta.js'
 import Hero from '../components/sections/Hero.jsx'
 import Benefits from '../components/sections/Benefits.jsx'
+import StatsStrip from '../components/sections/StatsStrip.jsx'
 import ServicesOverview from '../components/sections/ServicesOverview.jsx'
 import Gallery from '../components/sections/Gallery.jsx'
 import HowItWorks from '../components/sections/HowItWorks.jsx'
@@ -28,6 +29,7 @@ export default function Home() {
         </div>
       </Section>
       <Benefits />
+      <StatsStrip />
       <ServicesOverview />
       <WhatWeDeliver />
       <PopularItems />

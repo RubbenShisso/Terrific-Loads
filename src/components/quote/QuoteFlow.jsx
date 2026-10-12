@@ -2,6 +2,7 @@ import { useCallback, useEffect, useId, useMemo, useReducer, useRef, useState } 
 import { ArrowLeft, ArrowRight, Info, LoaderCircle, Plus, Route, X } from 'lucide-react'
 import Field from '../forms/Field.jsx'
 import WhatsAppIcon from '../ui/WhatsAppIcon.jsx'
+import CountUp from '../ui/CountUp.jsx'
 import AddressField from './AddressField.jsx'
 import ItemPicker from './ItemPicker.jsx'
 import { useRouteDistance } from '../../hooks/useRouteDistance.js'
@@ -25,10 +26,10 @@ import {
 } from '../../config/quote.js'
 
 const STEPS = [
-  { id: 'items', title: 'What do you need delivered?' },
-  { id: 'addresses', title: 'Where are we collecting and delivering?' },
-  { id: 'option', title: 'Choose your delivery option' },
-  { id: 'details', title: 'Your details' },
+  { id: 'items', short: 'Items', title: 'What do you need delivered?' },
+  { id: 'addresses', short: 'Addresses', title: 'Where are we collecting and delivering?' },
+  { id: 'option', short: 'Delivery', title: 'Choose your delivery option' },
+  { id: 'details', short: 'Your details', title: 'Your details' },
 ]
 const DRAFT_KEY = 'tl-quote-draft'
 const newId = () => `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`
@@ -264,11 +265,20 @@ export default function QuoteFlow({ id = 'get-a-quote', title = 'Get a delivery 
       </p>
 
       {/* Progress */}
-      <div className="mt-6">
+      <div className="mt-6" role="group" aria-label={`Step ${step + 1} of ${STEPS.length}`}>
         <p className="text-sm font-medium text-muted">Step {step + 1} of {STEPS.length}</p>
-        <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-line" aria-hidden="true">
-          <div className="h-full rounded-full bg-brand-yellow transition-[width] duration-300" style={{ width: `${((step + 1) / STEPS.length) * 100}%` }} />
-        </div>
+        <ol className="mt-2 grid grid-cols-4 gap-1.5" aria-hidden="true">
+          {STEPS.map((s, i) => (
+            <li key={s.id}>
+              <div className="h-1.5 overflow-hidden rounded-full bg-line">
+                <div className="h-full origin-left rounded-full bg-brand-yellow transition-transform duration-500 ease-out motion-reduce:transition-none" style={{ transform: `scaleX(${i <= step ? 1 : 0})` }} />
+              </div>
+              <span className={`mt-1.5 hidden text-xs font-semibold transition-colors sm:block ${i === step ? 'text-brand-black' : i < step ? 'text-muted' : 'text-muted/60'}`}>
+                {s.short}
+              </span>
+            </li>
+          ))}
+        </ol>
       </div>
 
       <h3 ref={headingRef} tabIndex={-1} className="mt-6 text-xl font-bold text-brand-black focus:outline-none sm:text-2xl">
@@ -359,6 +369,7 @@ export default function QuoteFlow({ id = 'get-a-quote', title = 'Get a delivery 
             )}
 
             <RouteLine route={route} multi={hasExtraStops} roles={routeRoles} />
+            <PricePreview outcome={outcome} />
           </div>
         )}
 
@@ -413,6 +424,25 @@ export default function QuoteFlow({ id = 'get-a-quote', title = 'Get a delivery 
         </p>
       )}
     </section>
+  )
+}
+
+/** Live indicative price: shows as soon as the route is worked out, and re-counts if it changes. */
+function PricePreview({ outcome }) {
+  if (!outcome.priced) return null
+  const { standard, express } = outcome.rate
+  return (
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 rounded-2xl border border-brand-black bg-brand-yellow/20 p-4" aria-live="polite">
+      <p className="text-sm font-semibold text-brand-black">Indicative price for one item</p>
+      <p className="flex items-baseline gap-3">
+        <span className="rounded-md bg-brand-yellow px-2 text-2xl font-extrabold text-brand-black">
+          <CountUp value={standard} immediate format={(n) => formatRand(n)} />
+        </span>
+        <span className="text-sm text-muted">
+          standard · <CountUp value={express} immediate format={(n) => formatRand(n)} /> express
+        </span>
+      </p>
+    </div>
   )
 }
 

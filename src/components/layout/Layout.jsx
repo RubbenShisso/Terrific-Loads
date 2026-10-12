@@ -7,6 +7,7 @@ import Footer from './Footer.jsx'
 import MobileActionBar from './MobileActionBar.jsx'
 import BusinessSchema from './BusinessSchema.jsx'
 import CustomCursor from '../ui/CustomCursor.jsx'
+import RouteProgress from '../ui/RouteProgress.jsx'
 
 export default function Layout() {
   const { pathname, hash } = useLocation()
@@ -55,6 +56,7 @@ export default function Layout() {
         <MobileActionBar />
         <BusinessSchema />
         <CustomCursor />
+        <RouteProgress />
       </div>
     </>
   )

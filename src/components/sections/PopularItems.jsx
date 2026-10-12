@@ -17,7 +17,7 @@ function PopularItem({ item }) {
     window.dispatchEvent(new CustomEvent(QUOTE_EVENTS.addItem, { detail: item.id }))
   }
   return (
-    <article className="flex h-full flex-col rounded-2xl border border-line bg-white p-4 sm:p-5">
+    <article className="flex h-full flex-col rounded-2xl border border-line bg-white p-4 transition duration-200 hover:-translate-y-1 hover:border-brand-yellow hover:shadow-lg hover:shadow-brand-black/5 has-[:focus-visible]:-translate-y-1 has-[:focus-visible]:border-brand-yellow sm:p-5 motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:has-[:focus-visible]:translate-y-0">
       <div className="flex items-center gap-3">
         <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-brand-yellow text-brand-black">
           <Icon className="size-6" strokeWidth={1.75} aria-hidden="true" />

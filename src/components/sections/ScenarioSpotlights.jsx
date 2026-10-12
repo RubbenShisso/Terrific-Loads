@@ -26,7 +26,7 @@ const spotlights = [
 
 function Spotlight({ s, index }) {
   return (
-    <Reveal as="article" delay={index * 0.06} className="flex h-full flex-col rounded-3xl border border-line bg-white p-6 sm:p-7">
+    <Reveal as="article" delay={index * 0.06} className="flex h-full flex-col rounded-3xl border border-line bg-white p-6 transition duration-200 hover:-translate-y-1 hover:border-brand-yellow hover:shadow-lg hover:shadow-brand-black/5 has-[:focus-visible]:-translate-y-1 has-[:focus-visible]:border-brand-yellow sm:p-7 motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:has-[:focus-visible]:translate-y-0">
       <IconBadge icon={s.icon} size="lg" />
       <h2 className="mt-5 text-xl font-bold sm:text-2xl">{s.title}</h2>
       <p className="mt-2 flex-1 text-muted">{s.text}</p>

@@ -2,6 +2,8 @@ import { ArrowDown, Clock, MapPin } from 'lucide-react'
 import { Container } from '../ui/Section.jsx'
 import { Button, WhatsAppButton } from '../ui/Button.jsx'
 import HeroMedia from './HeroMedia.jsx'
+import HeroRoute from './HeroRoute.jsx'
+import NextSlot from './NextSlot.jsx'
 import InteractiveBackdrop from '../ui/InteractiveBackdrop.jsx'
 import { business } from '../../config/business.js'
 
@@ -41,6 +43,8 @@ export default function Hero() {
             next-day collection options, subject to availability. We’re a collection and delivery service. We don’t sell furniture.
           </p>
 
+          <HeroRoute />
+
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <WhatsAppButton magnetic className={big} />
             <Button href="#how-it-works" variant="dark" className={big}>
@@ -48,6 +52,7 @@ export default function Hero() {
               <ArrowDown className="size-5" aria-hidden="true" />
             </Button>
           </div>
+          <NextSlot />
         </div>
 
         <HeroMedia />
