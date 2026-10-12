@@ -14,8 +14,8 @@ export const business = {
 
   whatsapp: {
     // International format without the plus sign, as wa.me expects.
-    number: '27815657009',
-    display: '+27 81 565 7009',
+    number: '27814868737',
+    display: '+27 81 486 8737',
     contactName: 'Kiru',
     message: "Hi Terrific Loads, I'd like a delivery quote.",
     confirmWithClient: true,
