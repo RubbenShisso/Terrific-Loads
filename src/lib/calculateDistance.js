@@ -4,8 +4,8 @@
  *   VITE_GOOGLE_MAPS_API_KEY  enables road distance through the Routes API.
  *
  * Without a key the free OpenStreetMap routing in routeDistance.js is used, so
- * the site never depends on Google to work. Address suggestions always use the
- * free OpenStreetMap search for now. Restrict the key to this site's domain.
+ * the site never depends on Google to work. Address suggestions use Google Places
+ * (falling back to OpenStreetMap). Restrict the key to this site's domain.
  */
 const KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
 

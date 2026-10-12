@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { MapPin } from 'lucide-react'
-import { searchLocations, LOCATION_ATTRIBUTION } from '../lib/locationSearch.js'
+import { searchLocations, LOCATION_ATTRIBUTION, GOOGLE_ATTRIBUTION } from '../lib/locationSearch.js'
 
 /**
  * Accessible address autocomplete (ARIA combobox) for any text input.
@@ -140,7 +140,7 @@ export default function useLocationAutocomplete({ value, onChange, onSelect, onB
               </li>
             ))}
           </ul>
-          <p className="border-t border-line px-3 py-1.5 text-[11px] text-muted">{LOCATION_ATTRIBUTION}</p>
+          <p className="border-t border-line px-3 py-1.5 text-[11px] text-muted">{options[0].source === 'google' ? GOOGLE_ATTRIBUTION : LOCATION_ATTRIBUTION}</p>
         </div>
       )}
     </>

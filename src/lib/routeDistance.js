@@ -3,7 +3,7 @@
  *
  * Order of preference:
  *  1. Google Routes API, when VITE_GOOGLE_MAPS_API_KEY is set.
- *  2. OSRM driving route on OpenStreetMap data (free, no key). Defaults to the
+ *  2. If Google fails for any reason, or no key is set: OSRM driving route on OpenStreetMap data (free, no key). Defaults to the
  *     FOSSGIS server used by openstreetmap.org; set VITE_ROUTING_URL to your own.
  *  3. If routing is unavailable: straight-line distance × 1.3 per leg, marked as an estimate.
  *
@@ -56,8 +56,13 @@ export async function routeThrough(stops, { signal } = {}) {
   if (stops.length < 2) throw new Error('At least two stops are needed.')
   if (mapsEnabled) {
     const texts = stops.map((s) => s.text)
-    const r = await getRoadDistance(texts[0], texts.at(-1), { signal, via: texts.slice(1, -1) })
-    return { km: r.km, minutes: r.durationMin, source: 'google' }
+    try {
+      const r = await getRoadDistance(texts[0], texts.at(-1), { signal, via: texts.slice(1, -1) })
+      return { km: r.km, minutes: r.durationMin, source: 'google' }
+    } catch (err) {
+      if (err.name === 'AbortError') throw err
+      // Google failed (network, quota, blocked key, address not found): try the free route below.
+    }
   }
   const points = await Promise.all(stops.map((s) => s.point || geocodePlace(s.text, { signal })))
   const missing = points.findIndex((p) => !p)
