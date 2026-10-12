@@ -434,11 +434,11 @@ function PricePreview({ outcome }) {
   return (
     <div className="flex flex-wrap items-center gap-x-4 gap-y-1 rounded-2xl border border-brand-black bg-brand-yellow/20 p-4" aria-live="polite">
       <p className="text-sm font-semibold text-brand-black">{outcome.estimate ? 'Estimated price, from' : 'Indicative price for one item'}</p>
-      <p className="flex items-baseline gap-3">
-        <span className="rounded-md bg-brand-yellow px-2 text-2xl font-extrabold text-brand-black">
+      <p className="flex basis-full flex-wrap items-baseline gap-x-3 gap-y-1">
+        <span className="shrink-0 rounded-md bg-brand-yellow px-2 text-2xl font-extrabold whitespace-nowrap text-brand-black">
           <CountUp value={standard} immediate format={(n) => formatRand(n)} />
         </span>
-        <span className="text-sm text-muted">
+        <span className="text-sm whitespace-nowrap text-muted">
           standard · <CountUp value={express} immediate format={(n) => formatRand(n)} /> express
         </span>
       </p>
