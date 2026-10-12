@@ -87,4 +87,4 @@ Visitors get a readable sitemap at `/sitemap`, linked from the footer. All absol
 - Real photos of appliance collections (fridges, washing machines and so on). The Appliance delivery section uses a neutral truck photo until then.
 - Size and weight limits: the largest item and heaviest load the trucks can take, and whether any appliance types are excluded. The site says every collection depends on size, weight, access, truck space and availability.
 - Whether appliances need to be disconnected and ready before collection, and whether installation is offered. The site doesn't claim either.
-- "Stores We've Collected From" (Hertex, Coricraft, Decofurn Furniture, Weylandts, Sofaworx, Bargain Buys, Ouhout, Tafelberg Furnishers, Die Handelshuis): confirm the list is accurate. Names are shown as text only. Retailer logos need each retailer's written permission first.
+- "Stores We've Collected From" (Hertex, Coricraft, Decofurn Furniture, Weylandts, Sofaworx, Ouhout, Tafelberg Furnishers, Die Handelshuis, Makro): confirm the list is accurate. Shown as a looping logo banner; the retailer logos need each retailer's written permission confirmed.

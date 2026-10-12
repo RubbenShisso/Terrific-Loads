@@ -51,6 +51,40 @@ export default function Reviews() {
     return () => { track.removeEventListener('scroll', onScroll); window.removeEventListener('resize', measure) }
   }, [list.length])
 
+  // Auto-advance every few seconds and loop back to the first review. Paused while
+  // the pointer or keyboard focus is on the row, while the tab is hidden, and never
+  // run for reduced-motion users.
+  const paused = useRef(false)
+  const activeRef = useRef(0)
+  activeRef.current = active
+  useEffect(() => {
+    const track = trackRef.current
+    if (!track || stops.length < 2) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const hold = () => { paused.current = true }
+    const release = () => { paused.current = false }
+    const section = track.closest('section')
+    section.addEventListener('mouseenter', hold)
+    section.addEventListener('mouseleave', release)
+    section.addEventListener('focusin', hold)
+    section.addEventListener('focusout', release)
+    section.addEventListener('touchstart', hold, { passive: true })
+    section.addEventListener('touchend', () => setTimeout(release, 4000), { passive: true })
+    const id = setInterval(() => {
+      if (paused.current || document.hidden) return
+      const next = activeRef.current >= stops.length - 1 ? 0 : activeRef.current + 1
+      track.scrollTo({ left: stops[next], behavior: 'smooth' })
+    }, 5000)
+    return () => {
+      clearInterval(id)
+      section.removeEventListener('mouseenter', hold)
+      section.removeEventListener('mouseleave', release)
+      section.removeEventListener('focusin', hold)
+      section.removeEventListener('focusout', release)
+      section.removeEventListener('touchstart', hold)
+    }
+  }, [stops])
+
   if (!list.length && !link) return null
 
   const goTo = (i) => {

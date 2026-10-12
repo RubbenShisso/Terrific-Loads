@@ -154,3 +154,69 @@
     scroll-behavior: auto;
   }
 }
+
+/*
+ * Store logo banner: the track holds two identical copies of the list, so sliding
+ * it left by exactly half loops seamlessly. Hover or keyboard focus pauses it.
+ */
+@keyframes logo-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.logo-marquee-track {
+  animation: logo-marquee 40s linear infinite;
+}
+.logo-marquee:hover .logo-marquee-track,
+.logo-marquee:focus-within .logo-marquee-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .logo-marquee-track {
+    animation: none;
+  }
+}
+
+/*
+ * Custom cursor (see CustomCursor.jsx). Only active on devices with a mouse; the
+ * native cursor is hidden except over text fields.
+ */
+html.custom-cursor,
+html.custom-cursor * {
+  cursor: none !important;
+}
+html.custom-cursor :is(input:not([type='checkbox']):not([type='radio']), textarea, select) {
+  cursor: text !important;
+}
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  pointer-events: none;
+  border-radius: 9999px;
+  will-change: transform;
+}
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--color-brand-black);
+  box-shadow: 0 0 0 2px #fff;
+  transition: opacity 0.2s;
+}
+.cursor-ring {
+  width: 34px;
+  height: 34px;
+  border: 2px solid var(--color-brand-yellow);
+  background: color-mix(in oklab, var(--color-brand-yellow) 14%, transparent);
+  transition: background-color 0.2s, border-color 0.2s, opacity 0.2s;
+}
+.cursor-ring[data-state='link'] {
+  background: color-mix(in oklab, var(--color-brand-yellow) 55%, transparent);
+  border-color: var(--color-brand-black);
+}
+.cursor-ring[data-state='text'],
+.cursor-dot[data-state='text'] {
+  opacity: 0;
+}

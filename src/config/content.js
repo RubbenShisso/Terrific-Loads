@@ -111,19 +111,19 @@ export const deliverables = [
 
 /**
  * Stores the client's own promotional material shows they have collected from.
- * Shown as plain text only (no logos) and never as partners or endorsements.
- * Logos may only be added once each retailer's permission is confirmed.
+ * Logos are white wordmarks (public/images/stores), shown on a dark banner.
+ * Never presented as partners or endorsements; the section carries a disclaimer.
  */
 export const storesCollectedFrom = [
-  'Hertex',
-  'Coricraft',
-  'Decofurn Furniture',
-  'Weylandts',
-  'Sofaworx',
-  'Bargain Buys',
-  'Ouhout',
-  'Tafelberg Furnishers',
-  'Die Handelshuis',
+  { name: 'Hertex', logo: 'hertex' },
+  { name: 'Coricraft', logo: 'coricraft' },
+  { name: 'Decofurn Furniture', logo: 'decofurn' },
+  { name: 'Weylandts', logo: 'weylandts' },
+  { name: 'Sofaworx', logo: 'sofaworx' },
+  { name: 'Ouhout', logo: 'ouhout' },
+  { name: 'Tafelberg Furnishers', logo: 'tafelberg' },
+  { name: 'Die Handelshuis', logo: 'handelshuis' },
+  { name: 'Makro', logo: 'makro' },
 ]
 
 /** Year-round promo banner: no sale dates or discounts. */

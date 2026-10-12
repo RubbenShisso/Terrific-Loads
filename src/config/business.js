@@ -30,7 +30,7 @@ export const business = {
   },
 
   // Paste the Google Business Profile link here once supplied.
-  googleReviewsUrl: '',
+  googleReviewsUrl: 'https://share.google/FTdRDWHXT8YbBDazi',
 
   // "Where we deliver" chips. DRAFT: broad Cape Town areas only, until the
   // client confirms the exact suburbs they cover.
