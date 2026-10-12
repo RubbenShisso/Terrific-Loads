@@ -60,8 +60,14 @@ export const totalQuantity = (list) => list.reduce((n, it) => n + (Number(it.qty
  * 'multiple-stops' | 'multiple-items' | 'pending' | 'not-found' | 'no-route' | 'over' | 'incomplete'.
  */
 export function quoteOutcome({ items = [], hasExtraStops = false, route = { status: 'idle' } }) {
-  if (hasExtraStops) return { priced: false, reason: 'multiple-stops' }
-  if (totalQuantity(items) > 1) return { priced: false, reason: 'multiple-items' }
+  // More than one item or stop: still show a price once the distance is known, but as an estimate.
+  const estimateReason = hasExtraStops ? 'multiple-stops' : totalQuantity(items) > 1 ? 'multiple-items' : null
+  if (estimateReason) {
+    if (route.status === 'loading') return { priced: false, reason: 'pending' }
+    const rate = route.status === 'done' && route.source !== 'estimate' ? getRate(route.km) : null
+    if (rate?.status === 'priced') return { priced: true, rate, estimate: true, estimateReason }
+    return { priced: false, reason: estimateReason }
+  }
   if (route.status === 'loading') return { priced: false, reason: 'pending' }
   if (route.status === 'not-found') return { priced: false, reason: 'not-found' }
   if (route.status === 'error' || (route.status === 'done' && route.source === 'estimate')) return { priced: false, reason: 'no-route' }
@@ -171,7 +177,10 @@ export function buildQuoteMessage({ items = [], stops = [], route, outcome, opti
     if (option.id === 'budget') block('Price', ['Budget-friendly request. Please let me know what you can arrange.'])
     else if (outcome?.priced) {
       const price = optionPrice(option, outcome)
-      block('Indicative price', [`${formatRand(price)} (${bandLabel(outcome.rate.band)}). To be confirmed by Terrific Loads.`])
+      if (outcome.estimate) {
+        const why = outcome.estimateReason === 'multiple-stops' ? 'more than one stop' : 'more than one item'
+        block('Estimated price', [`From ${formatRand(price)} (${bandLabel(outcome.rate.band)}, based on the route distance). The final price depends on ${why} and will be confirmed by Terrific Loads.`])
+      } else block('Indicative price', [`${formatRand(price)} (${bandLabel(outcome.rate.band)}). To be confirmed by Terrific Loads.`])
     } else if (outcome) block('Price', [`Please quote me (${reasonForMessage[outcome.reason] || 'manual quote needed'}).`])
   }
 

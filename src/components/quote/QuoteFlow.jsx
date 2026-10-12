@@ -433,7 +433,7 @@ function PricePreview({ outcome }) {
   const { standard, express } = outcome.rate
   return (
     <div className="flex flex-wrap items-center gap-x-4 gap-y-1 rounded-2xl border border-brand-black bg-brand-yellow/20 p-4" aria-live="polite">
-      <p className="text-sm font-semibold text-brand-black">Indicative price for one item</p>
+      <p className="text-sm font-semibold text-brand-black">{outcome.estimate ? 'Estimated price, from' : 'Indicative price for one item'}</p>
       <p className="flex items-baseline gap-3">
         <span className="rounded-md bg-brand-yellow px-2 text-2xl font-extrabold text-brand-black">
           <CountUp value={standard} immediate format={(n) => formatRand(n)} />
@@ -442,6 +442,11 @@ function PricePreview({ outcome }) {
           standard · <CountUp value={express} immediate format={(n) => formatRand(n)} /> express
         </span>
       </p>
+      {outcome.estimate && (
+        <p className="basis-full text-sm text-muted">
+          Based on the route distance. With {outcome.estimateReason === 'multiple-stops' ? 'more than one stop' : 'more than one item'}, our team confirms the final price on WhatsApp before you pay anything.
+        </p>
+      )}
     </div>
   )
 }
@@ -606,7 +611,7 @@ function OptionStep({ state, dispatch, route, outcome, roles, multi, error, fid 
                 <span className="min-w-0 flex-1">
                   <span className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
                     <span className="text-lg font-bold text-brand-black">{o.label}</span>
-                    <OptionPrice price={price} option={o} pending={pending} />
+                    <OptionPrice price={price} option={o} pending={pending} estimate={outcome.estimate} />
                   </span>
                   <span className="mt-1 block text-sm text-muted">{o.text}</span>
                 </span>
@@ -619,12 +624,13 @@ function OptionStep({ state, dispatch, route, outcome, roles, multi, error, fid 
   )
 }
 
-function OptionPrice({ price, option, pending }) {
+function OptionPrice({ price, option, pending, estimate }) {
   if (price != null) {
     return (
       <span className="text-right">
+        {estimate && <span className="mr-1 text-xs text-muted">from</span>}
         <span className="rounded-md bg-brand-yellow px-1.5 text-xl font-extrabold text-brand-black tabular-nums">{formatRand(price)}</span>
-        <span className="ml-1 text-xs text-muted">indicative</span>
+        <span className="ml-1 text-xs text-muted">{estimate ? 'estimate' : 'indicative'}</span>
       </span>
     )
   }
