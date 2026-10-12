@@ -11,7 +11,7 @@ import Faq from '../components/sections/Faq.jsx'
 import CtaBand from '../components/sections/CtaBand.jsx'
 import ServiceAreas from '../components/sections/ServiceAreas.jsx'
 import WhatWeDeliver from '../components/sections/WhatWeDeliver.jsx'
-import StoresCollectedFrom from '../components/sections/StoresCollectedFrom.jsx'
+import StoresCollectedFrom, { StoresStrip } from '../components/sections/StoresCollectedFrom.jsx'
 import PromoBanner from '../components/sections/PromoBanner.jsx'
 import PopularItems from '../components/sections/PopularItems.jsx'
 import ScenarioSpotlights from '../components/sections/ScenarioSpotlights.jsx'
@@ -23,6 +23,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <StoresStrip />
       <Section className="border-t border-line bg-surface !py-10 sm:!py-14">
         <div className="mx-auto max-w-3xl">
           <QuoteFlow />
