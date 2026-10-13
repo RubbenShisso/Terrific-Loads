@@ -5,6 +5,9 @@ import App, { preloadPage } from './App.jsx'
 import { knownPaths } from './config/seo.js'
 import './index.css'
 
+// Apply the non-blocking web font stylesheet (see index.html).
+document.querySelectorAll('link[data-font]').forEach((l) => (l.media = 'all'))
+
 const app = (
   <StrictMode>
     <BrowserRouter>
