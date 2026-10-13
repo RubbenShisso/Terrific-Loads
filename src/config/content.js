@@ -133,11 +133,13 @@ export const promo = {
   cta: 'Get It Delivered',
 }
 
-/** Hero clip: the client's real "Loading" video, played only on tap. */
-export const heroVideo = {
-  src: '/videos/loading.mp4',
-  label: 'The Terrific Loads team loading wrapped furniture',
-}
+/** Hero clips: the client's real team videos, played only on tap, cycled with prev/next. */
+export const heroVideos = [
+  { src: '/videos/loading.mp4', label: 'The Terrific Loads team loading wrapped furniture' },
+  { src: '/videos/team-clip-1.mp4', label: 'The Terrific Loads team on a delivery' },
+  { src: '/videos/team-clip-2.mp4', label: 'The Terrific Loads team on a delivery' },
+  { src: '/videos/team-clip-3.mp4', label: 'The Terrific Loads team on a delivery' },
+]
 
 /** About page promo: 45s informative video with voice-over. Portrait cut on phones, landscape elsewhere. */
 export const aboutVideo = {
