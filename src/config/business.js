@@ -31,6 +31,8 @@ export const business = {
 
   // Paste the Google Business Profile link here once supplied.
   googleReviewsUrl: 'https://share.google/FTdRDWHXT8YbBDazi',
+  // How many Google reviews the business has, shown as "20+". Not the number copied into reviews.js.
+  googleReviewCount: 20,
 
   // "Where we deliver" chips. DRAFT: broad Cape Town areas only, until the
   // client confirms the exact suburbs they cover.

@@ -3,6 +3,7 @@ import CountUp from '../ui/CountUp.jsx'
 import { storesCollectedFrom } from '../../config/content.js'
 import { reviews } from '../../config/reviews.js'
 import { rates, formatRand } from '../../config/rates.js'
+import { business } from '../../config/business.js'
 
 /**
  * Count-up facts, every number read from the site's own config (never typed in
@@ -12,7 +13,7 @@ const stats = [
   { value: rates.maxPricedKm, suffix: ' km', label: 'Standard delivery range' },
   { value: rates.bands[0].price, format: (n) => formatRand(n), prefix: 'From ', label: `Up to ${rates.bands[0].to} km` },
   { value: storesCollectedFrom.length, suffix: '+', label: 'Stores we’ve collected from' },
-  ...(reviews.length ? [{ value: reviews.length, suffix: '', label: 'Customer reviews on Google' }] : []),
+  ...(reviews.length ? [{ value: business.googleReviewCount, suffix: '+', label: 'Customer reviews on Google' }] : []),
 ]
 
 export default function StatsStrip() {
