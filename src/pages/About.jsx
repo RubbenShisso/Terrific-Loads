@@ -1,7 +1,8 @@
 import usePageMeta from '../hooks/usePageMeta.js'
 import PageHeader from '../components/sections/PageHeader.jsx'
 import CtaBand from '../components/sections/CtaBand.jsx'
-import { Section } from '../components/ui/Section.jsx'
+import AboutVideo from '../components/sections/AboutVideo.jsx'
+import { Section, SectionHeading } from '../components/ui/Section.jsx'
 import Photo from '../components/ui/Photo.jsx'
 import Reveal from '../components/ui/Reveal.jsx'
 
@@ -36,7 +37,19 @@ export default function About() {
         </div>
       </Section>
 
-      <Section className="bg-surface" aria-label="Our trucks">
+      <Section className="bg-surface" aria-labelledby="about-video-heading">
+        <SectionHeading
+          id="about-video-heading"
+          eyebrow="Watch"
+          title="See how Terrific Loads works"
+          align="center"
+        />
+        <Reveal className="mt-10">
+          <AboutVideo />
+        </Reveal>
+      </Section>
+
+      <Section aria-label="Our trucks">
         <div className="grid gap-4 sm:grid-cols-2">
           <Reveal className="overflow-hidden rounded-3xl">
             <Photo name="truck-coast" sizes="(min-width: 640px) 50vw, 100vw" className="aspect-[4/3] w-full object-cover" />

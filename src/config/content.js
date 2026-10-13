@@ -139,6 +139,13 @@ export const heroVideo = {
   label: 'The Terrific Loads team loading wrapped furniture',
 }
 
+/** About page promo: 45s informative video with voice-over. Portrait cut on phones, landscape elsewhere. */
+export const aboutVideo = {
+  landscape: '/videos/terrific-loads-promo-45s.mp4',
+  portrait: '/videos/terrific-loads-promo-45s-vertical.mp4',
+  label: 'Terrific Loads: how our collection and delivery service works',
+}
+
 // Weekend and helper policies are still to be confirmed by the client,
 // so they are intentionally left out until then.
 export const faqs = [
