@@ -49,17 +49,6 @@ export default function About() {
         </Reveal>
       </Section>
 
-      <Section aria-label="Our trucks">
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Reveal className="overflow-hidden rounded-3xl">
-            <Photo name="truck-coast" sizes="(min-width: 640px) 50vw, 100vw" className="aspect-[4/3] w-full object-cover" />
-          </Reveal>
-          <Reveal delay={0.06} className="overflow-hidden rounded-3xl">
-            <Photo name="truck-chairs" sizes="(min-width: 640px) 50vw, 100vw" className="aspect-[4/3] w-full object-cover" />
-          </Reveal>
-        </div>
-      </Section>
-
       <CtaBand />
     </>
   )

@@ -203,4 +203,5 @@ export const gallery = [
   { photo: 'table-loaded', caption: 'Wrapped and secured' },
   { photo: 'rugs-delivered', caption: 'Rugs delivered' },
   { photo: 'truck-chairs', caption: 'Ready to roll' },
+  { photo: 'truck-coast', caption: 'On the road' },
 ]
