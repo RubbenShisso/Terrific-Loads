@@ -145,7 +145,13 @@ export const heroVideos = [
 export const aboutVideo = {
   landscape: '/videos/terrific-loads-promo-45s.mp4',
   portrait: '/videos/terrific-loads-promo-45s-vertical.mp4',
+  landscapePoster: '/videos/terrific-loads-promo-45s-poster.jpg',
+  portraitPoster: '/videos/terrific-loads-promo-45s-vertical-poster.jpg',
   label: 'Terrific Loads: how our collection and delivery service works',
+  description:
+    'How Terrific Loads collects furniture, appliances and other bulky purchases from the store and delivers them to your door in Cape Town, with indicative prices by distance.',
+  duration: 'PT45S',
+  uploadDate: '2026-10-13',
 }
 
 // Weekend and helper policies are still to be confirmed by the client,

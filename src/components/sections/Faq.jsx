@@ -31,8 +31,16 @@ export default function Faq() {
     window.history.replaceState(window.history.state, '', url)
   }
 
+  // Answers are only rendered when opened, so give search engines the full text here.
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(({ q, a }) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+  }
+
   return (
     <Section id="faq" className="bg-surface">
+      <script type="application/ld+json">{JSON.stringify(schema)}</script>
       <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
         <SectionHeading eyebrow="FAQ" title="Questions we get asked" intro="Can’t see your question? Send us a WhatsApp and we’ll answer it." />
         <div className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-white">

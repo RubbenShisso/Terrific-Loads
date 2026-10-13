@@ -9,7 +9,7 @@ export const business = {
   name: 'Terrific Loads',
   tagline: 'Furniture, appliance & bulky-item delivery',
   serviceArea: 'Cape Town & surrounding areas',
-  siteUrl: 'https://terrificloads.co.za', // placeholder domain, confirm before launch
+  siteUrl: 'https://www.terrificloads.co.za', // live domain; the bare domain redirects here
   confirmWithClient: true,
 
   whatsapp: {

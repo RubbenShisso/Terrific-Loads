@@ -5,7 +5,7 @@
  */
 import { business } from './business.js'
 
-export const SITE_TITLE = 'Terrific Loads | Furniture, Appliance & Bulky Item Delivery'
+export const SITE_TITLE = 'Terrific Loads | Furniture & Appliance Delivery in Cape Town'
 
 /** Absolute site address with no trailing slash (business.siteUrl). */
 export const SITE_URL = business.siteUrl.replace(/\/+$/, '')
@@ -26,13 +26,13 @@ export const pages = {
     path: '/',
     title: null,
     description:
-      'Bought furniture, appliances or bulky items that won’t fit in your car? Terrific Loads offers same-day and next-day retail collection and delivery. Request a quote today.',
+      'Bought furniture or appliances that won’t fit in your car? Terrific Loads collects from the store and delivers same-day or next-day in Cape Town. Get a quote.',
     changefreq: 'weekly',
     priority: '1.0',
   },
   services: {
     path: '/services',
-    title: 'Services',
+    title: 'Furniture & Appliance Delivery Services',
     description:
       'Furniture delivery, appliance delivery (fridges, washing machines, dishwashers), bulky item collection, and same-day and next-day delivery in Cape Town and surrounding areas.',
     changefreq: 'monthly',
@@ -40,21 +40,21 @@ export const pages = {
   },
   quote: {
     path: '/quote',
-    title: 'Request a quote',
+    title: 'Get a Cape Town Delivery Quote',
     description: 'Estimate your delivery and request a quote for furniture, appliances or other bulky items. Tell us where to collect, where to deliver and what needs moving.',
     changefreq: 'monthly',
     priority: '0.9',
   },
   about: {
     path: '/about',
-    title: 'About us',
+    title: 'About Our Cape Town Delivery Team',
     description: 'Terrific Loads is a Cape Town collection and delivery business for furniture, household appliances and other bulky retail purchases.',
     changefreq: 'monthly',
     priority: '0.7',
   },
   contact: {
     path: '/contact',
-    title: 'Contact',
+    title: 'Contact Us: WhatsApp or Call',
     description: 'WhatsApp or call Terrific Loads for furniture, appliance and bulky-item collection and delivery in Cape Town and surrounding areas.',
     changefreq: 'monthly',
     priority: '0.8',
@@ -84,7 +84,7 @@ export const pages = {
 export const fullTitle = (title) => (title ? `${title} | Terrific Loads` : SITE_TITLE)
 export const knownPaths = Object.values(pages).map((p) => p.path).filter((p) => p !== '*')
 
-/** Canonical address of a page, e.g. https://terrificloads.co.za/services. Home keeps its slash. */
+/** Canonical address of a page, e.g. https://www.terrificloads.co.za/services. Home keeps its slash. */
 export const canonicalUrl = (path) => `${SITE_URL}${path === '/' ? '/' : path}`
 export const absoluteUrl = (path) => `${SITE_URL}${path}`
 export const isIndexable = (page) => page.index !== false && page.path !== '*'
