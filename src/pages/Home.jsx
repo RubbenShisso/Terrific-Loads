@@ -22,8 +22,8 @@ export default function Home() {
   usePageMeta('home')
   return (
     <>
-      <Hero />
       <StoresStrip />
+      <Hero />
       <Section className="border-t border-line bg-surface !py-10 sm:!py-14">
         <div className="mx-auto max-w-3xl">
           <QuoteFlow />
