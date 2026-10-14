@@ -124,6 +124,7 @@ export const storesCollectedFrom = [
   { name: 'Tafelberg Furnishers', logo: 'tafelberg' },
   { name: 'Die Handelshuis', logo: 'handelshuis' },
   { name: 'Makro', logo: 'makro' },
+  { name: 'Game', logo: 'game' },
 ]
 
 /** Year-round promo banner: no sale dates or discounts. */
